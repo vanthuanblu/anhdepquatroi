@@ -1,284 +1,129 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Kho Ảnh Của Tui - Có Sẵn Thư Mục images</title>
-    <style>
-      body {
-        font-family: Segoe UI;
-        background: #000;
-        color: #0ff;
-        margin: 0;
-        padding: 20px;
-        min-height: 100vh;
-      }
-      h1 {
-        text-align: center;
-        margin: 40px 0 20px;
-        font-size: 3.5em;
-        text-shadow: 0 0 30px #0ff;
-      }
-      #drop {
-        border: 6px dashed #0ff;
-        padding: 120px;
-        text-align: center;
-        font-size: 2.5em;
-        border-radius: 25px;
-        margin: 40px 0;
-        background: rgba(0, 255, 255, 0.1);
-        transition: 0.4s;
-        cursor: pointer;
-      }
-      #drop.dragover {
-        background: rgba(0, 255, 255, 0.3);
-        transform: scale(1.03);
-      }
-      #gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 22px;
-        margin-top: 40px;
-      }
-      .item {
-        position: relative;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 255, 255, 0.5);
-        transition: 0.4s;
-        cursor: pointer;
-      }
-      .item:hover {
-        transform: translateY(-15px) scale(1.06);
-        box-shadow: 0 20px 60px rgba(0, 255, 255, 0.8);
-      }
-      .item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        aspect-ratio: 1;
-      }
-      .info {
-        text-align: center;
-        font-size: 2em;
-        margin: 30px;
-        color: #0ff;
-        font-weight: bold;
-      }
-      #lightbox {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.97);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        z-index: 9999;
-      }
-      #lightbox.hidden {
-        display: none;
-      }
-      #close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 90px;
-        cursor: pointer;
-        color: #fff;
-      }
-      #big {
-        max-width: 94%;
-        max-height: 85vh;
-        border-radius: 20px;
-        box-shadow: 0 0 60px #0ff;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>KHO ẢNH CỦA TUI</h1>
-    <div class="info" id="info">
-      Thư mục images đã sẵn sàng! Kéo ảnh vào đây hoặc tự thêm vào code cũng
-      được!
-    </div>
-    <div id="drop">KÉO ẢNH MỚI VÀO ĐÂY ĐỂ THÊM VÀO KHO</div>
-    <div id="gallery"></div>
+<head>
+<meta charset="UTF-8">
+<title>Kho Ảnh Cưới - Tải Về Siêu Dễ</title>
+<style>
+  body{font-family:18px 'Segoe UI';background:#000;color:#0ff;margin:0;padding:20px;min-height:100vh}
+  h1{text-align:center;margin:40px 0 20px;font-size:4em;text-shadow:0 0 40px #0ff}
+  #gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;margin-top:30px}
+  .item{
+    position:relative;border-radius:22px;overflow:hidden;
+    box-shadow:0 12px 50px rgba(0,255,255,0.6);transition:0.4s;
+    cursor:pointer;aspect-ratio:1;
+  }
+  .item:hover{transform:scale(1.08);box-shadow:0 25px 80px rgba(0,255,255,0.9)}
+  .item img{width:100%;height:100%;object-fit:cover}
+  .download-icon{
+    position:absolute;bottom:12px;right:12px;
+    background:#0f0;color:#000;font-size:28px;padding:10px 14px;
+    border-radius:50%;opacity:0;transition:0.3s;box-shadow:0 0 20px #000;
+  }
+  .item:hover .download-icon{opacity:1;transform:scale(1.2)}
+  #lightbox{
+    position:fixed;top:0;left:0;width:100vw;height:100vh;
+    background:rgba(0,0,0,0.97);display:flex;align-items:center;
+    justify-content:center;flex-direction:column;z-index:9999;
+  }
+  #lightbox.hidden{display:none}
+  #close{position:absolute;top:20px;right:30px;font-size:90px;cursor:pointer;color:#fff}
+  #big{max-width:94%;max-height:75vh;border-radius:25px;box-shadow:0 0 80px #0ff}
+  #downloadBig{
+    background:#0f0;color:#000;padding:20px 60px;font-size:2.2em;
+    border:none;border-radius:20px;cursor:pointer;margin-top:30px;
+    font-weight:bold;box-shadow:0 0 30px #0f0;
+  }
+  #downloadBig:hover{background:#0c0;transform:scale(1.1)}
+  .info{text-align:center;font-size:2.3em;margin:30px;color:#0ff;font-weight:bold}
+</style>
+</head>
+<body>
+<h1>KHO ẢNH CƯỚI CỦA TUI</h1>
+<div class="info">46 ảnh cưới đẹp lung linh – Click ảnh để tải về máy ngay!</div>
 
-    <div id="lightbox" class="hidden">
-      <div id="close">X</div>
-      <img id="big" />
-      <div
-        style="margin-top: 20px; color: #ccc; font-size: 1.3em"
-        id="filename"
-      ></div>
-    </div>
+<div id="gallery"></div>
 
-    <script>
-      // ================================
-      // KHO ẢNH ẢO CÓ SẴN - BẠN CHỈ CẦN THÊM DÒNG MỚI VÀO ĐÂY
-      // ================================
-      const builtinImages = [
-        // Ví dụ cách thêm ảnh (bạn chỉ cần copy-paste dòng này):
-        // {name: "mèo con.jpg", base64: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQ..."},
+<!-- Lightbox + Nút tải to -->
+<div id="lightbox" class="hidden">
+  <div id="close">X</div>
+  <img id="big">
+  <button id="downloadBig">TẢI ẢNH NÀY VỀ MÁY</button>
+</div>
 
-        // === BẠN THÊM ẢNH CỦA BẠN TẠI ĐÂY ===
-        // Copy 1 trong 2 cách dưới đây để thêm ảnh:
+<script>
+// Danh sách 46 ảnh cưới của bạn (đúng tên file trong thư mục images)
+const photos = [
+"IMGL1922.JPG","IMGL1936.JPG","IMGL1944.JPG","IMGL1971.JPG","IMGL2010.JPG",
+"IMGL2082.JPG","IMGL2095.JPG","IMGL2119.JPG","IMGL2157.JPG","IMGL2213.JPG",
+"IMGL2228.JPG","IMGL2242.JPG","IMGL2278.JPG","IMGL2332.JPG","IMGL2357.JPG",
+"IMGL2402.JPG","IMGL2456.JPG","IMGL2476.JPG","IMGL2478.JPG","IMGL2485.JPG",
+"IMGL2491.JPG","IMGL2505.JPG","IMGL2528.JPG","IMGL2596.JPG","IMGL2625.JPG",
+"IMGL2634.JPG","IMGL2652.JPG","IMGL2684.JPG","IMGL2717.JPG","IMGL2735.JPG",
+"IMGL2757.JPG","IMGL2825.JPG","IMGL2841.JPG","IMGL2854.JPG","IMGL2859.JPG",
+"IMGL2863.JPG","IMGL2884.JPG","IMGL2889.JPG","IMGL2960.JPG","IMGL2973.JPG",
+"IMGL2992.JPG","IMGL3021.JPG","IMGL3026.JPG"
+];
 
-        // Cách 1: Dán link ảnh online (dễ nhất)
-        { name: "Anh cưới ", base64: "images/IMGL1922.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL1936.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL1944.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL1971.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2010.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2082.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2095.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2119.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2157.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2213.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2228.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2242.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2278.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2332.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2357.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2402.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2456.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2476.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2478.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2485.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2491.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2505.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2528.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2596.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2625.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2634.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2652.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2684.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2717.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2735.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2757.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2757.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2825.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2841.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2854.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2859.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2863.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2884.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2960.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2889.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2973.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL2992.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL3021.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL3026.JPG" },
-        { name: "Anh cưới ", base64: "images/IMGL3032.JPG" },
-        { name: "Anh cưới ", base64: "" },
-        { name: "Anh cưới ", base64: "" },
+// Tạo gallery + nút tải nhỏ trên từng ảnh
+photos.forEach(file => {
+  const fullPath = `images/${file}`;
+  
+  const div = document.createElement('div');
+  div.className = 'item';
+  div.innerHTML = `
+    <img src="${fullPath}" loading="lazy" alt="${file}">
+    <div class="download-icon" title="Tải ảnh này">Download</div>
+  `;
 
-        // Cách 2: Dán base64 thật (nếu bạn muốn ảnh nằm 100% trong file)
-        // {name: "tên ảnh.jpg", base64: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."}
-      ];
+  // Click ảnh → mở lightbox
+  div.onclick = (e) => {
+    if (e.target.classList.contains('download-icon')) return; // không mở lightbox nếu bấm nút tải
+    document.getElementById('big').src = fullPath;
+    document.getElementById('lightbox').classList.remove('hidden');
+    currentDownloadUrl = fullPath;
+    currentFileName = file;
+  };
 
-      // Load ảnh có sẵn + ảnh đã lưu trước đó
-      let db;
-      const request = indexedDB.open("KhoAnhCuaTui_2025", 1);
-      request.onupgradeneeded = (e) => {
-        db = e.target.result;
-        db.createObjectStore("images", { keyPath: "id", autoIncrement: true });
-      };
-      request.onsuccess = (e) => {
-        db = e.target.result;
-        loadAll();
-      };
+  // Nút tải nhỏ trên góc ảnh (hoạt động cả trên điện thoại)
+  div.querySelector('.download-icon').onclick = (e) => {
+    e.stopPropagation();
+    downloadImage(fullPath, file);
+  };
 
-      async function loadAll() {
-        // 1. Load ảnh có sẵn trong code
-        builtinImages.forEach((img) => addToGallery(img.base64, img.name));
+  // Cho phép chuột phải bấm “Lưu ảnh dưới dạng…” (cả điện thoại cũng được)
+  div.querySelector('img').oncontextmenu = () => true;
 
-        // 2. Load ảnh đã lưu trước đó (kéo thả)
-        const tx = db.transaction("images", "readonly");
-        const store = tx.objectStore("images");
-        const req = store.getAll();
-        req.onsuccess = () => {
-          req.result.forEach((i) =>
-            addToGallery(URL.createObjectURL(i.blob), i.name)
-          );
-          document.getElementById(
-            "info"
-          ).textContent = `Kho đã sẵn sàng! Tổng ${
-            document.querySelectorAll(".item").length
-          } ảnh`;
-        };
-      }
+  document.getElementById('gallery').appendChild(div);
+});
 
-      // Thêm vào gallery
-      function addToGallery(src, name) {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `<img src="${src}" loading="lazy">`;
-        div.title = name;
-        div.onclick = () => {
-          document.getElementById("big").src = src;
-          document.getElementById("filename").textContent = name;
-          document.getElementById("lightbox").classList.remove("hidden");
-        };
-        document.getElementById("gallery").appendChild(div);
-      }
+// Biến lưu tạm để nút tải lớn dùng
+let currentDownloadUrl = '';
+let currentFileName = '';
 
-      // Kéo thả ảnh mới → lưu vĩnh viễn
-      const drop = document.getElementById("drop");
-      ["dragover", "dragenter"].forEach((e) =>
-        drop.addEventListener(e, (ev) => {
-          ev.preventDefault();
-          drop.classList.add("dragover");
-        })
-      );
-      ["dragleave", "drop"].forEach((e) =>
-        drop.addEventListener(e, (ev) => {
-          ev.preventDefault();
-          drop.classList.remove("dragover");
-        })
-      );
+// Nút tải lớn trong lightbox
+document.getElementById('downloadBig').onclick = () => {
+  downloadImage(currentDownloadUrl, currentFileName);
+};
 
-      drop.ondrop = (e) => {
-        e.preventDefault();
-        [...e.dataTransfer.files].forEach((file) => {
-          if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-              const blob = new Blob([ev.target.result], { type: file.type });
-              db.transaction("images", "readwrite")
-                .objectStore("images")
-                .add({ blob, name: file.name });
-              addToGallery(URL.createObjectURL(blob), file.name);
-            };
-            reader.readAsArrayBuffer(file);
-          }
-        });
-      };
+// Hàm tải ảnh (hoạt động 100% trên máy tính + điện thoại)
+function downloadImage(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
 
-      // Click để chọn ảnh
-      drop.onclick = () => {
-        const i = document.createElement("input");
-        i.type = "file";
-        i.multiple = true;
-        i.accept = "image/*";
-        i.onchange = () =>
-          [...i.files].forEach((f) => {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-              const blob = new Blob([ev.target.result], { type: f.type });
-              db.transaction("images", "readwrite")
-                .objectStore("images")
-                .add({ blob, name: f.name });
-              addToGallery(URL.createObjectURL(blob), f.name);
-            };
-            reader.readAsArrayBuffer(f);
-          });
-        i.click();
-      };
+// Đóng lightbox
+document.getElementById('close').onclick = () => {
+  document.getElementById('lightbox').classList.add('hidden');
+};
 
-      document.getElementById("close").onclick = () =>
-        document.getElementById("lightbox").classList.add("hidden");
-    </script>
-  </body>
+// Tắt lightbox khi bấm nền
+document.getElementById('lightbox').onclick = (e) => {
+  if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.add('hidden');
+};
+</script>
+</body>
 </html>
