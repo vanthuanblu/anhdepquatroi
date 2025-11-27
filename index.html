@@ -1,129 +1,241 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-<meta charset="UTF-8">
-<title>Kho Ảnh Cưới - Tải Về Siêu Dễ</title>
-<style>
-  body{font-family:18px 'Segoe UI';background:#000;color:#0ff;margin:0;padding:20px;min-height:100vh}
-  h1{text-align:center;margin:40px 0 20px;font-size:4em;text-shadow:0 0 40px #0ff}
-  #gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;margin-top:30px}
-  .item{
-    position:relative;border-radius:22px;overflow:hidden;
-    box-shadow:0 12px 50px rgba(0,255,255,0.6);transition:0.4s;
-    cursor:pointer;aspect-ratio:1;
-  }
-  .item:hover{transform:scale(1.08);box-shadow:0 25px 80px rgba(0,255,255,0.9)}
-  .item img{width:100%;height:100%;object-fit:cover}
-  .download-icon{
-    position:absolute;bottom:12px;right:12px;
-    background:#0f0;color:#000;font-size:28px;padding:10px 14px;
-    border-radius:50%;opacity:0;transition:0.3s;box-shadow:0 0 20px #000;
-  }
-  .item:hover .download-icon{opacity:1;transform:scale(1.2)}
-  #lightbox{
-    position:fixed;top:0;left:0;width:100vw;height:100vh;
-    background:rgba(0,0,0,0.97);display:flex;align-items:center;
-    justify-content:center;flex-direction:column;z-index:9999;
-  }
-  #lightbox.hidden{display:none}
-  #close{position:absolute;top:20px;right:30px;font-size:90px;cursor:pointer;color:#fff}
-  #big{max-width:94%;max-height:75vh;border-radius:25px;box-shadow:0 0 80px #0ff}
-  #downloadBig{
-    background:#0f0;color:#000;padding:20px 60px;font-size:2.2em;
-    border:none;border-radius:20px;cursor:pointer;margin-top:30px;
-    font-weight:bold;box-shadow:0 0 30px #0f0;
-  }
-  #downloadBig:hover{background:#0c0;transform:scale(1.1)}
-  .info{text-align:center;font-size:2.3em;margin:30px;color:#0ff;font-weight:bold}
-</style>
-</head>
-<body>
-<h1>KHO ẢNH CƯỚI CỦA TUI</h1>
-<div class="info">46 ảnh cưới đẹp lung linh – Click ảnh để tải về máy ngay!</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kho Ảnh</title>
+    <style>
+      body {
+        font-family: 18px "Segoe UI";
+        background: #000;
+        color: #0ff;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+      h1 {
+        text-align: center;
+        margin: 40px 0 20px;
+        font-size: 4em;
+        text-shadow: 0 0 40px #0ff;
+      }
+      #gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+      }
+      .item {
+        position: relative;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 12px 50px rgba(0, 255, 255, 0.6);
+        transition: 0.4s;
+        cursor: pointer;
+        aspect-ratio: 1;
+      }
+      .item:hover {
+        transform: scale(1.08);
+        box-shadow: 0 25px 80px rgba(0, 255, 255, 0.9);
+      }
+      .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .download-icon {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: #0f0;
+        color: #000;
+        font-size: 28px;
+        padding: 10px 14px;
+        border-radius: 50%;
+        opacity: 0;
+        transition: 0.3s;
+        box-shadow: 0 0 20px #000;
+      }
+      .item:hover .download-icon {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      #lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.97);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 9999;
+      }
+      #lightbox.hidden {
+        display: none;
+      }
+      #close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 90px;
+        cursor: pointer;
+        color: #fff;
+      }
+      #big {
+        max-width: 94%;
+        max-height: 75vh;
+        border-radius: 25px;
+        box-shadow: 0 0 80px #0ff;
+      }
+      #downloadBig {
+        background: #0f0;
+        color: #000;
+        padding: 20px 60px;
+        font-size: 2.2em;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-top: 30px;
+        font-weight: bold;
+        box-shadow: 0 0 30px #0f0;
+      }
+      #downloadBig:hover {
+        background: #0c0;
+        transform: scale(1.1);
+      }
+      .info {
+        text-align: center;
+        font-size: 2.3em;
+        margin: 30px;
+        color: #0ff;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>KHO ẢNH CỦA TUI</h1>
+    <div class="info">Kho ảnh !</div>
 
-<div id="gallery"></div>
+    <div id="gallery"></div>
 
-<!-- Lightbox + Nút tải to -->
-<div id="lightbox" class="hidden">
-  <div id="close">X</div>
-  <img id="big">
-  <button id="downloadBig">TẢI ẢNH NÀY VỀ MÁY</button>
-</div>
+    <!-- Lightbox + Nút tải to -->
+    <div id="lightbox" class="hidden">
+      <div id="close">X</div>
+      <img id="big" />
+      <button id="downloadBig">TẢI VỀ</button>
+    </div>
 
-<script>
-// Danh sách 46 ảnh cưới của bạn (đúng tên file trong thư mục images)
-const photos = [
-"IMGL1922.JPG","IMGL1936.JPG","IMGL1944.JPG","IMGL1971.JPG","IMGL2010.JPG",
-"IMGL2082.JPG","IMGL2095.JPG","IMGL2119.JPG","IMGL2157.JPG","IMGL2213.JPG",
-"IMGL2228.JPG","IMGL2242.JPG","IMGL2278.JPG","IMGL2332.JPG","IMGL2357.JPG",
-"IMGL2402.JPG","IMGL2456.JPG","IMGL2476.JPG","IMGL2478.JPG","IMGL2485.JPG",
-"IMGL2491.JPG","IMGL2505.JPG","IMGL2528.JPG","IMGL2596.JPG","IMGL2625.JPG",
-"IMGL2634.JPG","IMGL2652.JPG","IMGL2684.JPG","IMGL2717.JPG","IMGL2735.JPG",
-"IMGL2757.JPG","IMGL2825.JPG","IMGL2841.JPG","IMGL2854.JPG","IMGL2859.JPG",
-"IMGL2863.JPG","IMGL2884.JPG","IMGL2889.JPG","IMGL2960.JPG","IMGL2973.JPG",
-"IMGL2992.JPG","IMGL3021.JPG","IMGL3026.JPG"
-];
+    <script>
+      // Danh sách 46 ảnh cưới của bạn (đúng tên file trong thư mục images)
+      const photos = [
+        "IMGL1922.JPG",
+        "IMGL1936.JPG",
+        "IMGL1944.JPG",
+        "IMGL1971.JPG",
+        "IMGL2010.JPG",
+        "IMGL2082.JPG",
+        "IMGL2095.JPG",
+        "IMGL2119.JPG",
+        "IMGL2157.JPG",
+        "IMGL2213.JPG",
+        "IMGL2228.JPG",
+        "IMGL2242.JPG",
+        "IMGL2278.JPG",
+        "IMGL2332.JPG",
+        "IMGL2357.JPG",
+        "IMGL2402.JPG",
+        "IMGL2456.JPG",
+        "IMGL2476.JPG",
+        "IMGL2478.JPG",
+        "IMGL2485.JPG",
+        "IMGL2491.JPG",
+        "IMGL2505.JPG",
+        "IMGL2528.JPG",
+        "IMGL2596.JPG",
+        "IMGL2625.JPG",
+        "IMGL2634.JPG",
+        "IMGL2652.JPG",
+        "IMGL2684.JPG",
+        "IMGL2717.JPG",
+        "IMGL2735.JPG",
+        "IMGL2757.JPG",
+        "IMGL2825.JPG",
+        "IMGL2841.JPG",
+        "IMGL2854.JPG",
+        "IMGL2859.JPG",
+        "IMGL2863.JPG",
+        "IMGL2884.JPG",
+        "IMGL2889.JPG",
+        "IMGL2960.JPG",
+        "IMGL2973.JPG",
+        "IMGL2992.JPG",
+        "IMGL3021.JPG",
+        "IMGL3026.JPG",
+      ];
 
-// Tạo gallery + nút tải nhỏ trên từng ảnh
-photos.forEach(file => {
-  const fullPath = `images/${file}`;
-  
-  const div = document.createElement('div');
-  div.className = 'item';
-  div.innerHTML = `
+      // Tạo gallery + nút tải nhỏ trên từng ảnh
+      photos.forEach((file) => {
+        const fullPath = `images/${file}`;
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
     <img src="${fullPath}" loading="lazy" alt="${file}">
     <div class="download-icon" title="Tải ảnh này">Download</div>
   `;
 
-  // Click ảnh → mở lightbox
-  div.onclick = (e) => {
-    if (e.target.classList.contains('download-icon')) return; // không mở lightbox nếu bấm nút tải
-    document.getElementById('big').src = fullPath;
-    document.getElementById('lightbox').classList.remove('hidden');
-    currentDownloadUrl = fullPath;
-    currentFileName = file;
-  };
+        // Click ảnh → mở lightbox
+        div.onclick = (e) => {
+          if (e.target.classList.contains("download-icon")) return; // không mở lightbox nếu bấm nút tải
+          document.getElementById("big").src = fullPath;
+          document.getElementById("lightbox").classList.remove("hidden");
+          currentDownloadUrl = fullPath;
+          currentFileName = file;
+        };
 
-  // Nút tải nhỏ trên góc ảnh (hoạt động cả trên điện thoại)
-  div.querySelector('.download-icon').onclick = (e) => {
-    e.stopPropagation();
-    downloadImage(fullPath, file);
-  };
+        // Nút tải nhỏ trên góc ảnh (hoạt động cả trên điện thoại)
+        div.querySelector(".download-icon").onclick = (e) => {
+          e.stopPropagation();
+          downloadImage(fullPath, file);
+        };
 
-  // Cho phép chuột phải bấm “Lưu ảnh dưới dạng…” (cả điện thoại cũng được)
-  div.querySelector('img').oncontextmenu = () => true;
+        // Cho phép chuột phải bấm “Lưu ảnh dưới dạng…” (cả điện thoại cũng được)
+        div.querySelector("img").oncontextmenu = () => true;
 
-  document.getElementById('gallery').appendChild(div);
-});
+        document.getElementById("gallery").appendChild(div);
+      });
 
-// Biến lưu tạm để nút tải lớn dùng
-let currentDownloadUrl = '';
-let currentFileName = '';
+      // Biến lưu tạm để nút tải lớn dùng
+      let currentDownloadUrl = "";
+      let currentFileName = "";
 
-// Nút tải lớn trong lightbox
-document.getElementById('downloadBig').onclick = () => {
-  downloadImage(currentDownloadUrl, currentFileName);
-};
+      // Nút tải lớn trong lightbox
+      document.getElementById("downloadBig").onclick = () => {
+        downloadImage(currentDownloadUrl, currentFileName);
+      };
 
-// Hàm tải ảnh (hoạt động 100% trên máy tính + điện thoại)
-function downloadImage(url, filename) {
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
+      // Hàm tải ảnh (hoạt động 100% trên máy tính + điện thoại)
+      function downloadImage(url, filename) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
 
-// Đóng lightbox
-document.getElementById('close').onclick = () => {
-  document.getElementById('lightbox').classList.add('hidden');
-};
+      // Đóng lightbox
+      document.getElementById("close").onclick = () => {
+        document.getElementById("lightbox").classList.add("hidden");
+      };
 
-// Tắt lightbox khi bấm nền
-document.getElementById('lightbox').onclick = (e) => {
-  if (e.target.id === 'lightbox') document.getElementById('lightbox').classList.add('hidden');
-};
-</script>
-</body>
+      // Tắt lightbox khi bấm nền
+      document.getElementById("lightbox").onclick = (e) => {
+        if (e.target.id === "lightbox")
+          document.getElementById("lightbox").classList.add("hidden");
+      };
+    </script>
+  </body>
 </html>
